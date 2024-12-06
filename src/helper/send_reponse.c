@@ -30,7 +30,7 @@ int helper_send_response_pubkey() {
     size_t offset = 0;
 
     resp[offset++] = PUBKEY_LEN + 1;
-    resp[offset++] = 0x04;
+    resp[offset++] = 0x04; // This 0x04 byte signifies that pubkey is uncompressed
     memmove(resp + offset, G_context.pk_info.raw_public_key, PUBKEY_LEN);
     offset += PUBKEY_LEN;
     resp[offset++] = CHAINCODE_LEN;

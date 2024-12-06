@@ -1,10 +1,7 @@
 from collections import namedtuple
 from pathlib import Path
-
 import pytest
-
 from speculos.client import SpeculosClient
-
 from aptos_client.aptos_speculos_cmd import AptosSpeculosCommand
 
 
@@ -13,12 +10,8 @@ API_URL = "http://127.0.0.1:5000"
 
 
 def pytest_addoption(parser):
-    parser.addoption("--model",
-                     action="store",
-                     default="nanos")
-    parser.addoption("--sdk",
-                     action="store",
-                     default="2.1")
+    parser.addoption("--model", action="store", default="nanos")
+    parser.addoption("--sdk", action="store", default="2.1")
 
 
 @pytest.fixture(scope="session")
@@ -47,14 +40,11 @@ def sw_h_path():
 @pytest.fixture
 def client(model, sdk):
     file_path = SCRIPT_DIR.parent.parent / "bin" / "app.elf"
-    args = ['--model', model, '--sdk', sdk]
+    args = ["--model", model, "--sdk", sdk]
     with SpeculosClient(app=str(file_path), args=args) as client:
         yield client
 
 
 @pytest.fixture
 def cmd(client):
-    yield AptosSpeculosCommand(
-        client=client,
-        debug=True
-    )
+    yield AptosSpeculosCommand(client=client, debug=True)

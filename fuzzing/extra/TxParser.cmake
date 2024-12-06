@@ -1,7 +1,7 @@
 # project information
 project(TxParser
         VERSION 1.0
-        DESCRIPTION "Transaction parser of Aptos app"
+        DESCRIPTION "Transaction parser of Supra app"
         LANGUAGES C)
 
 # specify C standard
