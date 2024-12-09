@@ -53,7 +53,6 @@ def button(headless):
 
 @pytest.fixture(scope="session")
 def cmd(hid):
-    print("OP Bro", hid)
     transport = (
         Transport(interface="hid", debug=True)
         if hid
