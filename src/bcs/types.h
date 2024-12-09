@@ -10,11 +10,11 @@
 // Address size
 #define ADDRESS_LEN 32
 // default coin module
-#define APTOS_COIN "0x1::aptos_coin::AptosCoin"
+#define APTOS_COIN "0x1::supra_coin::SupraCoin"
 // prefix for RawTransaction
-#define RAW_TRANSACTION_SALT "APTOS::RawTransaction"
+#define RAW_TRANSACTION_SALT "SUPRA::RawTransaction"
 // prefix for MultiAgentRawTransaction
-#define RAW_TRANSACTION_WITH_DATA_SALT "APTOS::RawTransactionWithData"
+#define RAW_TRANSACTION_WITH_DATA_SALT "SUPRA::RawTransactionWithData"
 // size of hashed prefix
 #define TX_HASHED_PREFIX_LEN 32
 // size in bytes of data (max_gas_amount + gas_unit_price + expiration_timestamp_secs + chain_id)
@@ -22,12 +22,12 @@
 #define TX_FOOTER_LEN 25
 // sha3-256 hash of the RAW_TRANSACTION_SALT
 static const uint8_t PREFIX_RAW_TX_HASHED[] = {
-    181, 233, 125, 176, 127, 160, 189, 14,  85,  152, 170, 54, 67,  169, 188, 111,
-    102, 147, 189, 220, 26,  159, 236, 158, 103, 74,  70,  30, 170, 0,   177, 147};
+    136, 209, 110, 209, 171, 166, 215, 125,  82, 26, 175, 173, 166, 214, 233,
+    45, 122,  23,  69,  39, 173, 180,  87, 173, 250, 102, 169, 197, 160, 241, 254,  55};
 // sha3-256 hash of the RAW_TRANSACTION_WITH_DATA_SALT
 static const uint8_t PREFIX_RAW_TX_WITH_DATA_HASHED[] = {
-    94, 250, 60, 79,  2,   248, 58, 15,  75,  45,  105, 252, 149, 198, 7,   204,
-    2,  130, 92, 196, 231, 190, 83, 110, 240, 153, 45,  240, 80,  217, 230, 124};
+    153, 182, 239, 100, 227, 135, 159, 196, 232, 207, 11, 183, 62, 196, 92, 16,
+    8,  32, 169,  77,  69, 192, 103, 160, 98, 44, 2, 52, 104, 207, 174, 239};
 
 typedef struct {
     uint64_t high;

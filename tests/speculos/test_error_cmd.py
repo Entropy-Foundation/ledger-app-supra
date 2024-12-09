@@ -1,15 +1,12 @@
 import pytest
-
 from speculos.client import ApduException
-
 from aptos_client.exception import *
 
 
 @pytest.mark.xfail(raises=ClaNotSupportedError)
 def test_bad_cla(client):
     try:
-        client.apdu_exchange(cla=0xa0,  # 0xa0 instead of 0x5b
-                             ins=0x03)
+        client.apdu_exchange(cla=0xA0, ins=0x03)  # 0xa0 instead of 0x5b
     except ApduException as error:
         raise DeviceException(error_code=error.sw)
 
@@ -17,8 +14,7 @@ def test_bad_cla(client):
 @pytest.mark.xfail(raises=InsNotSupportedError)
 def test_bad_ins(client):
     try:
-        client.apdu_exchange(cla=0x5b,
-                             ins=0xff)  # bad INS
+        client.apdu_exchange(cla=0x5B, ins=0xFF)  # bad INS
     except ApduException as error:
         raise DeviceException(error_code=error.sw)
 
@@ -26,9 +22,7 @@ def test_bad_ins(client):
 @pytest.mark.xfail(raises=WrongP1P2Error)
 def test_wrong_p1p2(client):
     try:
-        client.apdu_exchange(cla=0x5b,
-                             ins=0x03,
-                             p1=0x01)  # 0x01 instead of 0x00
+        client.apdu_exchange(cla=0x5B, ins=0x03, p1=0x01)  # 0x01 instead of 0x00
     except ApduException as error:
         raise DeviceException(error_code=error.sw)
 

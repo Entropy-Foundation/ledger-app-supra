@@ -1,17 +1,13 @@
 import struct
 from typing import Tuple
-
 from ledgercomm import Transport
-
 from aptos_client.aptos_cmd_builder import AptosCommandBuilder, InsType
 from aptos_client.button import Button
 from aptos_client.exception import DeviceException
 
 
 class AptosCommand:
-    def __init__(self,
-                 transport: Transport,
-                 debug: bool = False) -> None:
+    def __init__(self, transport: Transport, debug: bool = False) -> None:
         self.transport = transport
         self.builder = AptosCommandBuilder(debug=debug)
         self.debug = debug
@@ -35,11 +31,11 @@ class AptosCommand:
         offset += 1
         app_name_len: int = response[offset]
         offset += 1
-        app_name: str = response[offset:offset + app_name_len].decode("ascii")
+        app_name: str = response[offset : offset + app_name_len].decode("ascii")
         offset += app_name_len
         version_len: int = response[offset]
         offset += 1
-        version: str = response[offset:offset + version_len].decode("ascii")
+        version: str = response[offset : offset + version_len].decode("ascii")
         offset += version_len
 
         return app_name, version
@@ -55,10 +51,7 @@ class AptosCommand:
         # response = MAJOR (1) || MINOR (1) || PATCH (1)
         assert len(response) == 3
 
-        major, minor, patch = struct.unpack(
-            "BBB",
-            response
-        )  # type: int, int, int
+        major, minor, patch = struct.unpack("BBB", response)  # type: int, int, int
 
         return major, minor, patch
 
@@ -72,10 +65,11 @@ class AptosCommand:
 
         return response.decode("ascii")
 
-    def get_public_key(self, bip32_path: str, display: bool = False) -> Tuple[bytes, bytes]:
+    def get_public_key(
+        self, bip32_path: str, display: bool = False
+    ) -> Tuple[bytes, bytes]:
         sw, response = self.transport.exchange_raw(
-            self.builder.get_public_key(bip32_path=bip32_path,
-                                        display=display)
+            self.builder.get_public_key(bip32_path=bip32_path, display=display)
         )  # type: int, bytes
 
         if sw != 0x9000:
@@ -89,47 +83,54 @@ class AptosCommand:
 
         pub_key_len: int = response[offset]
         offset += 1
-        pub_key: bytes = response[offset:offset + pub_key_len]
+        pub_key: bytes = response[offset : offset + pub_key_len]
         offset += pub_key_len
         chain_code_len: int = response[offset]
         offset += 1
-        chain_code: bytes = response[offset:offset + chain_code_len]
+        chain_code: bytes = response[offset : offset + chain_code_len]
         offset += chain_code_len
 
         assert len(response) == 1 + pub_key_len + 1 + chain_code_len
 
         return pub_key, chain_code
 
-    def sign_raw(self, bip32_path: str, data: bytes, button: Button, model: str) -> Tuple[int, bytes]:
+    def sign_raw(
+        self, bip32_path: str, data: bytes, button: Button, model: str
+    ) -> Tuple[int, bytes]:
         sw: int
         response: bytes = b""
-
+        if button is None:
+            print(
+                "Button instance is passed as 'None', it is assumed that you want to manually interact with wallet"
+            )
         for is_last, chunk in self.builder.sign_raw(bip32_path=bip32_path, data=data):
             self.transport.send_raw(chunk)
 
             if is_last:
-                # Review Transaction
-                button.right_click()
-                # Function
-                button.right_click()
-                # Coin Type
-                # Due to screen size, NanoS needs 1 more screens to display the coin type
-                if model == 'nanos':
+                if button is not None:
+                    print("Op Bro")
+                    # Review Transaction
                     button.right_click()
-                button.right_click()
-                # Receiver
-                # Due to screen size, NanoS needs 2 more screens to display the address
-                if model == 'nanos':
+                    # Function
+                    button.right_click()
+                    # Coin Type
+                    # Due to screen size, NanoS needs 1 more screens to display the coin type
+                    if model == "nanos":
+                        button.right_click()
+                    button.right_click()
+                    # Receiver
+                    # Due to screen size, NanoS needs 2 more screens to display the address
+                    if model == "nanos":
+                        button.right_click()
+                        button.right_click()
                     button.right_click()
                     button.right_click()
-                button.right_click()
-                button.right_click()
-                # Amount
-                button.right_click()
-                # Gas Fee
-                button.right_click()
-                # Approve
-                button.both_click()
+                    # Amount
+                    button.right_click()
+                    # Gas Fee
+                    button.right_click()
+                    # Approve
+                    button.both_click()
 
             sw, response = self.transport.recv()  # type: int, bytes
 
@@ -139,7 +140,7 @@ class AptosCommand:
         # response = der_sig_len (1) ||
         #            der_sig (var)
         der_sig_len: int = response[0]
-        der_sig: bytes = response[1: 1 + der_sig_len]
+        der_sig: bytes = response[1 : 1 + der_sig_len]
 
         assert len(response) == 1 + der_sig_len
 

@@ -273,7 +273,7 @@ int ui_display_transaction() {
     if (!format_fpu64(gas_fee, sizeof(gas_fee), gas_fee_value, 8)) {
         return io_send_sw(SW_DISPLAY_AMOUNT_FAIL);  // TODO: SW_DISPLAY_GAS_FEE_FAIL
     }
-    snprintf(g_gas_fee, sizeof(g_gas_fee), "APT %.*s", sizeof(gas_fee), gas_fee);
+    snprintf(g_gas_fee, sizeof(g_gas_fee), "SUP %.*s", sizeof(gas_fee), gas_fee);
     PRINTF("Gas Fee: %s\n", g_gas_fee);
 
     if (transaction->tx_variant == TX_RAW) {
@@ -361,7 +361,7 @@ int ui_display_tx_aptos_account_transfer() {
     if (!format_fpu64(amount, sizeof(amount), transfer->amount, 8)) {
         return io_send_sw(SW_DISPLAY_AMOUNT_FAIL);
     }
-    snprintf(g_amount, sizeof(g_amount), "APT %.*s", sizeof(amount), amount);
+    snprintf(g_amount, sizeof(g_amount), "SUP %.*s", sizeof(amount), amount);
     PRINTF("Amount: %s\n", g_amount);
 
     ux_flow_init(0, ux_display_tx_aptos_account_transfer_flow, NULL);

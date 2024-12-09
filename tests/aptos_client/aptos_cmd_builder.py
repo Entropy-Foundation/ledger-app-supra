@@ -2,7 +2,6 @@ import enum
 import logging
 import struct
 from typing import List, Tuple, Union, Iterator, cast
-
 from aptos_client.utils import bip32_path_from_string
 
 MAX_APDU_LEN: int = 255
@@ -20,7 +19,7 @@ def chunkify(data: bytes, chunk_len: int) -> Iterator[Tuple[bool, bytes]]:
     offset: int = 0
 
     for i in range(chunk):
-        yield False, data[offset:offset + chunk_len]
+        yield False, data[offset : offset + chunk_len]
         offset += chunk_len
 
     if remaining:
@@ -48,18 +47,21 @@ class AptosCommandBuilder:
         Whether you want to see logging or not.
 
     """
+
     CLA: int = 0x5B
 
     def __init__(self, debug: bool = False):
         """Init constructor."""
         self.debug = debug
 
-    def serialize(self,
-                  cla: int,
-                  ins: Union[int, enum.IntEnum],
-                  p1: int = 0,
-                  p2: int = 0,
-                  cdata: bytes = b"") -> bytes:
+    def serialize(
+        self,
+        cla: int,
+        ins: Union[int, enum.IntEnum],
+        p1: int = 0,
+        p2: int = 0,
+        cdata: bytes = b"",
+    ) -> bytes:
         """Serialize the whole APDU command (header + data).
 
         Parameters
@@ -83,12 +85,9 @@ class AptosCommandBuilder:
         """
         ins = cast(int, ins.value) if isinstance(ins, enum.IntEnum) else cast(int, ins)
 
-        header: bytes = struct.pack("BBBBB",
-                                    cla,
-                                    ins,
-                                    p1,
-                                    p2,
-                                    len(cdata))  # add Lc to APDU header
+        header: bytes = struct.pack(
+            "BBBBB", cla, ins, p1, p2, len(cdata)
+        )  # add Lc to APDU header
 
         if self.debug:
             logging.info("header: %s", header.hex())
@@ -105,11 +104,9 @@ class AptosCommandBuilder:
             APDU command for GET_APP_AND_VERSION.
 
         """
-        return self.serialize(cla=0xB0,  # specific CLA for BOLOS
-                              ins=0x01,
-                              p1=0x00,
-                              p2=0x00,
-                              cdata=b"")
+        return self.serialize(
+            cla=0xB0, ins=0x01, p1=0x00, p2=0x00, cdata=b""  # specific CLA for BOLOS
+        )
 
     def get_version(self) -> bytes:
         """Command builder for GET_VERSION.
@@ -120,11 +117,9 @@ class AptosCommandBuilder:
             APDU command for GET_VERSION.
 
         """
-        return self.serialize(cla=self.CLA,
-                              ins=InsType.INS_GET_VERSION,
-                              p1=0x00,
-                              p2=0x00,
-                              cdata=b"")
+        return self.serialize(
+            cla=self.CLA, ins=InsType.INS_GET_VERSION, p1=0x00, p2=0x00, cdata=b""
+        )
 
     def get_app_name(self) -> bytes:
         """Command builder for GET_APP_NAME.
@@ -135,11 +130,9 @@ class AptosCommandBuilder:
             APDU command for GET_APP_NAME.
 
         """
-        return self.serialize(cla=self.CLA,
-                              ins=InsType.INS_GET_APP_NAME,
-                              p1=0x00,
-                              p2=0x00,
-                              cdata=b"")
+        return self.serialize(
+            cla=self.CLA, ins=InsType.INS_GET_APP_NAME, p1=0x00, p2=0x00, cdata=b""
+        )
 
     def get_public_key(self, bip32_path: str, display: bool = False) -> bytes:
         """Command builder for GET_PUBLIC_KEY.
@@ -159,16 +152,17 @@ class AptosCommandBuilder:
         """
         bip32_paths: List[bytes] = bip32_path_from_string(bip32_path)
 
-        cdata: bytes = b"".join([
-            len(bip32_paths).to_bytes(1, byteorder="big"),
-            *bip32_paths
-        ])
+        cdata: bytes = b"".join(
+            [len(bip32_paths).to_bytes(1, byteorder="big"), *bip32_paths]
+        )
 
-        return self.serialize(cla=self.CLA,
-                              ins=InsType.INS_GET_PUBLIC_KEY,
-                              p1=0x01 if display else 0x00,
-                              p2=0x00,
-                              cdata=cdata)
+        return self.serialize(
+            cla=self.CLA,
+            ins=InsType.INS_GET_PUBLIC_KEY,
+            p1=0x01 if display else 0x00,
+            p2=0x00,
+            cdata=cdata,
+        )
 
     def sign_raw(self, bip32_path: str, data: bytes) -> Iterator[Tuple[bool, bytes]]:
         """Command builder for INS_SIGN_TX.
@@ -188,28 +182,29 @@ class AptosCommandBuilder:
         """
         bip32_paths: List[bytes] = bip32_path_from_string(bip32_path)
 
-        cdata: bytes = b"".join([
-            len(bip32_paths).to_bytes(1, byteorder="big"),
-            *bip32_paths
-        ])
+        cdata: bytes = b"".join(
+            [len(bip32_paths).to_bytes(1, byteorder="big"), *bip32_paths]
+        )
 
-        yield False, self.serialize(cla=self.CLA,
-                                    ins=InsType.INS_SIGN_TX,
-                                    p1=0x00,
-                                    p2=0x80,
-                                    cdata=cdata)
+        yield False, self.serialize(
+            cla=self.CLA, ins=InsType.INS_SIGN_TX, p1=0x00, p2=0x80, cdata=cdata
+        )
 
         for i, (is_last, chunk) in enumerate(chunkify(data, MAX_APDU_LEN)):
             if is_last:
-                yield True, self.serialize(cla=self.CLA,
-                                           ins=InsType.INS_SIGN_TX,
-                                           p1=i + 1,
-                                           p2=0x00,
-                                           cdata=chunk)
+                yield True, self.serialize(
+                    cla=self.CLA,
+                    ins=InsType.INS_SIGN_TX,
+                    p1=i + 1,
+                    p2=0x00,
+                    cdata=chunk,
+                )
                 return
             else:
-                yield False, self.serialize(cla=self.CLA,
-                                            ins=InsType.INS_SIGN_TX,
-                                            p1=i + 1,
-                                            p2=0x80,
-                                            cdata=chunk)
+                yield False, self.serialize(
+                    cla=self.CLA,
+                    ins=InsType.INS_SIGN_TX,
+                    p1=i + 1,
+                    p2=0x80,
+                    cdata=chunk,
+                )

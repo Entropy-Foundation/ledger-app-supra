@@ -321,7 +321,7 @@ entry_function_known_type_t determine_function_type(transaction_t *tx) {
     }
 
     if (tx->payload.entry_function.module_id.address[ADDRESS_LEN - 1] == 0x01 &&
-        memcmp(tx->payload.entry_function.module_id.name.bytes, "aptos_account", 13) == 0 &&
+        memcmp(tx->payload.entry_function.module_id.name.bytes, "supra_account", 13) == 0 &&
         memcmp(tx->payload.entry_function.function_name.bytes, "transfer", 8) == 0) {
         return FUNC_APTOS_ACCOUNT_TRANSFER;
     }

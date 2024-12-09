@@ -3,5 +3,5 @@ def test_get_app_and_version(cmd):
     # however, its failure will mean that Speculos may have been improved on this front
     app_name, version = cmd.get_app_and_version()
 
-    assert app_name == "app"
-    assert version == "1.33.7"
+    assert app_name == "Supra"
+    assert version == "0.0.1"
