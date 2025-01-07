@@ -11,7 +11,7 @@ handle_build_app() {
     validate_model_arg "$1"
     sudo docker run -d --rm -ti -v "$(realpath .):/app" --user "$(id -u $USER)":"$(id -g $USER)" \
         ghcr.io/ledgerhq/ledger-app-builder/ledger-app-builder:latest \
-        /bin/bash -c "BOLOS_SDK=\$$(echo "$1" | tr '[:lower:]' '[:upper:]')_SDK make"
+        /bin/bash -c "BOLOS_SDK=\$$(echo "$1" | tr '[:lower:]' '[:upper:]')_SDK make build"
 }
 
 handle_start_emulator() {
@@ -29,7 +29,7 @@ handle_load_app() {
     wget -q -O - https://raw.githubusercontent.com/LedgerHQ/udev-rules/master/add_udev_rules.sh | sudo bash
     sudo docker run --rm -ti -v "/dev/bus/usb:/dev/bus/usb" -v "$(realpath .):/app" --privileged \
         ghcr.io/ledgerhq/ledger-app-builder/ledger-app-builder:latest \
-        /bin/bash -c "BOLOS_SDK=\$$(echo "$1" | tr '[:lower:]' '[:upper:]')_SDK load"
+        /bin/bash -c "BOLOS_SDK=\$$(echo "$1" | tr '[:lower:]' '[:upper:]')_SDK make load"
 }
 
 handle_delete_app() {
@@ -42,7 +42,7 @@ handle_delete_app() {
     wget -q -O - https://raw.githubusercontent.com/LedgerHQ/udev-rules/master/add_udev_rules.sh | sudo bash
     sudo docker run --rm -ti -v "/dev/bus/usb:/dev/bus/usb" -v "$(realpath .):/app" --privileged \
         ghcr.io/ledgerhq/ledger-app-builder/ledger-app-builder:latest \
-        /bin/bash -c "BOLOS_SDK=\$$(echo "$1" | tr '[:lower:]' '[:upper:]')_SDK delete"
+        /bin/bash -c "BOLOS_SDK=\$$(echo "$1" | tr '[:lower:]' '[:upper:]')_SDK make delete"
 }
 
 handle_run_tests() {
