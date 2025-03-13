@@ -11,7 +11,7 @@ handle_build_app() {
     validate_model_arg "$1"
     sudo docker run -d --rm -ti -v "$(realpath .):/app" --user "$(id -u $USER)":"$(id -g $USER)" \
         ghcr.io/ledgerhq/ledger-app-builder/ledger-app-builder:latest \
-        /bin/bash -c "BOLOS_SDK=\$$(echo "$1" | tr '[:lower:]' '[:upper:]')_SDK make build"
+        /bin/bash -c "BOLOS_SDK=\$$(echo "$1" | tr '[:lower:]' '[:upper:]')_SDK make"
 }
 
 handle_start_emulator() {

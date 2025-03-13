@@ -104,7 +104,13 @@ class AptosSpeculosCommand:
                 ) as exchange:
                     # Review Transaction
                     self.client.press_and_release("right")
+                    # Hash
+                    self.client.press_and_release("right")
+                    # Gas Fee
+                    self.client.press_and_release("right")
                     # Function
+                    # Comment out code that generates click action for Coin Type, Receive and Amount when we are not
+                    # transferring tokens using 0x1::supra_account::transfer or 0x1::coin::transfer
                     self.client.press_and_release("right")
                     # Coin Type
                     # Due to screen size, NanoS needs 1 more screens to display the coin type
@@ -119,10 +125,7 @@ class AptosSpeculosCommand:
                         self.client.press_and_release("right")
                         self.client.press_and_release("right")
                     self.client.press_and_release("right")
-                    self.client.press_and_release("right")
                     # Amount
-                    self.client.press_and_release("right")
-                    # Gas Fee
                     self.client.press_and_release("right")
                     # Approve
                     self.client.press_and_release("both")
