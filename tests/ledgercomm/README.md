@@ -22,7 +22,7 @@ pip install --extra-index-url https://test.pypi.org/simple/ speculos
 
 The extra index allows to fetch the latest version of Speculos.
 
-Then, start the Aptos application on Speculos:
+Then, start the Supra application on Speculos:
 
 ```
 speculos bin/app.elf --button-port 42000
@@ -51,7 +51,7 @@ dependency:
 pip install ledgercomm[hid]
 ```
 
-Be sure to have the Aptos application installed (see
+Be sure to have the Supra application installed (see
 [this page](https://developers.ledger.com/docs/nano-app/load/) for installing an
 application on a Nano S) and opened on the device, and the device connected
 through USB, without any other software interacting with it. Then run:

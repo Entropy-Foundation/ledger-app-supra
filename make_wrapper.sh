@@ -9,6 +9,9 @@ validate_model_arg() {
 
 handle_build_app() {
     validate_model_arg "$1"
+    # Removing existing build and debug directory to ensure files does not overlap during new build,
+    # and its also good to perform the cleanup before starting new building process.
+    rm -rf ./build ./debug
     sudo docker run -d --rm -ti -v "$(realpath .):/app" --user "$(id -u $USER)":"$(id -g $USER)" \
         ghcr.io/ledgerhq/ledger-app-builder/ledger-app-builder:latest \
         /bin/bash -c "BOLOS_SDK=\$$(echo "$1" | tr '[:lower:]' '[:upper:]')_SDK make"
@@ -16,6 +19,11 @@ handle_build_app() {
 
 handle_start_emulator() {
     validate_model_arg "$1"
+
+    if ! pip show "speculos" &>/dev/null; then
+        echo "speculos is not installed, installing speculos"
+        pip install speculos
+    fi
     speculos "$(pwd)"/bin/app.elf --model "$1" --display headless --seed "shoot"
 }
 
@@ -47,9 +55,10 @@ handle_delete_app() {
 
 handle_run_tests() {
     validate_model_arg "$1"
+    handle_build_app "$1"
+
     project_root_dir=$(pwd)
     export PYTHONPATH=$project_root_dir/tests
-
     echo "Executing app unit testcases"
     cd unit-tests || exit 1
     cmake -Bbuild -H. && make -C build && CTEST_OUTPUT_ON_FAILURE=1 make -C build test
