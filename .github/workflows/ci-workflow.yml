@@ -13,16 +13,16 @@ on:
 
 jobs:
   nano_build:
-    name: Build Aptos application for NanoS, X and S+
+    name: Build Supra application for NanoS, X and S+
     strategy:
       matrix:
         include:
           - SDK: "$NANOS_SDK"
-            artifact: aptos-app-nanos
+            artifact: supra-app-nanos
           - SDK: "$NANOX_SDK"
-            artifact: aptos-app-nanox
+            artifact: supra-app-nanox
           - SDK: "$NANOSP_SDK"
-            artifact: aptos-app-nanosp
+            artifact: supra-app-nanosp
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/ledgerhq/ledger-app-builder/ledger-app-builder:latest
@@ -99,7 +99,7 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./unit-tests/coverage.info
           flags: unittests
-          name: codecov-app-aptos
+          name: codecov-app-supra
           fail_ci_if_error: true
           verbose: true
 
@@ -151,7 +151,7 @@ jobs:
       - name: Download app binary
         uses: actions/download-artifact@v2
         with:
-          name: aptos-app-${{matrix.model}}
+          name: supra-app-${{matrix.model}}
           path: bin
       - name: Install dependencies
         run: |
@@ -191,7 +191,7 @@ jobs:
       - name: Download app binary
         uses: actions/download-artifact@v2
         with:
-          name: aptos-app-${{matrix.model}}
+          name: supra-app-${{matrix.model}}
           path: bin
       - name: Install tests dependencies
         run: |

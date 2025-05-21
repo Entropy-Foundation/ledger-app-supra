@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import List, Dict, Any, Tuple
 import re
-from aptos_client.exception import DeviceException
+from supra_client.exception import DeviceException
 
 
 SW_RE = re.compile(

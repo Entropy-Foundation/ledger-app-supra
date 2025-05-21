@@ -1,6 +1,6 @@
 from nacl.signing import VerifyKey
 from nacl.exceptions import BadSignatureError
-from aptos_client.exception import *
+from supra_client.exception import *
 
 
 def test_sign_raw_tx(cmd, button, model):

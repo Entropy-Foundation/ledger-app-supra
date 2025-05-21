@@ -2,7 +2,7 @@ import enum
 import logging
 import struct
 from typing import List, Tuple, Union, Iterator, cast
-from aptos_client.utils import bip32_path_from_string
+from supra_client.utils import bip32_path_from_string
 
 MAX_APDU_LEN: int = 255
 
@@ -33,8 +33,8 @@ class InsType(enum.IntEnum):
     INS_SIGN_TX = 0x06
 
 
-class AptosCommandBuilder:
-    """APDU command builder for the Aptos application.
+class SupraCommandBuilder:
+    """APDU command builder for the Supra application.
 
     Parameters
     ----------

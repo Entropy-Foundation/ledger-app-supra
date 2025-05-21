@@ -1,6 +1,6 @@
 import pytest
 from speculos.client import ApduException
-from aptos_client.exception import *
+from supra_client.exception import *
 
 
 @pytest.mark.xfail(raises=ClaNotSupportedError)

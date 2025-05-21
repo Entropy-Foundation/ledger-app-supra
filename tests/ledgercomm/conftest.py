@@ -1,8 +1,8 @@
 from pathlib import Path
 import pytest
 from ledgercomm import Transport
-from aptos_client.aptos_cmd import AptosCommand
-from aptos_client.button import ButtonTCP, ButtonFake
+from supra_client.supra_cmd import SupraCommand
+from supra_client.button import ButtonTCP, ButtonFake
 
 
 def pytest_addoption(parser):
@@ -58,7 +58,7 @@ def cmd(hid):
         if hid
         else Transport(interface="tcp", server="127.0.0.1", port=9999, debug=True)
     )
-    command = AptosCommand(transport=transport, debug=True)
+    command = SupraCommand(transport=transport, debug=True)
 
     yield command
 
