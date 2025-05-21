@@ -56,6 +56,10 @@ handle_delete_app() {
 handle_run_tests() {
     validate_model_arg "$1"
     handle_build_app "$1"
+    # To give container sufficient time to sync files with local volume, I know this sounds wired,
+    # But I noticed discrepancies related to the testcase, when we don't wait after build,
+    #`test_sign_raw_tx` testcase of `ledgercomm` fails.
+    sleep 1
 
     project_root_dir=$(pwd)
     export PYTHONPATH=$project_root_dir/tests
