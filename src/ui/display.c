@@ -221,7 +221,7 @@ UX_FLOW(ux_display_tx_entry_function_flow,
         &ux_display_approve_step,
         &ux_display_reject_step);
 
-// FLOW to display aptos_account_transfer transaction information:
+// FLOW to display supra_account_transfer transaction information:
 // #1 screen : eye icon + "Review Transaction"
 // #2 screen : display function name
 // #3 screen : display destination address
@@ -229,7 +229,7 @@ UX_FLOW(ux_display_tx_entry_function_flow,
 // #5 screen : display gas fee
 // #6 screen : approve button
 // #7 screen : reject button
-UX_FLOW(ux_display_tx_aptos_account_transfer_flow,
+UX_FLOW(ux_display_tx_supra_account_transfer_flow,
         &ux_display_review_step,
         &ux_display_function_step,
         &ux_display_receiver_step,
@@ -337,8 +337,8 @@ int ui_display_entry_function() {
     PRINTF("Function: %s\n", g_function);
 
     switch (function->known_type) {
-        case FUNC_APTOS_ACCOUNT_TRANSFER:
-            return ui_display_tx_aptos_account_transfer();
+        case FUNC_SUPRA_ACCOUNT_TRANSFER:
+            return ui_display_tx_supra_account_transfer();
         case FUNC_COIN_TRANSFER:
             return ui_display_tx_coin_transfer();
         default:
@@ -348,8 +348,8 @@ int ui_display_entry_function() {
     return 0;
 }
 
-int ui_display_tx_aptos_account_transfer() {
-    agrs_aptos_account_trasfer_t *transfer =
+int ui_display_tx_supra_account_transfer() {
+    agrs_supra_account_trasfer_t *transfer =
         &G_context.tx_info.transaction.payload.entry_function.args.transfer;
 
     memset(g_address, 0, sizeof(g_address));
@@ -364,7 +364,7 @@ int ui_display_tx_aptos_account_transfer() {
     snprintf(g_amount, sizeof(g_amount), "SUP %.*s", sizeof(amount), amount);
     PRINTF("Amount: %s\n", g_amount);
 
-    ux_flow_init(0, ux_display_tx_aptos_account_transfer_flow, NULL);
+    ux_flow_init(0, ux_display_tx_supra_account_transfer_flow, NULL);
 
     return 0;
 }

@@ -29,6 +29,6 @@ int ui_display_message(void);
 
 int ui_display_entry_function(void);
 
-int ui_display_tx_aptos_account_transfer(void);
+int ui_display_tx_supra_account_transfer(void);
 
 int ui_display_tx_coin_transfer(void);

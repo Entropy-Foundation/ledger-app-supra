@@ -42,7 +42,7 @@ void script_payload_init(script_payload_t *payload) {
     payload->args = NULL;
 }
 
-void transaction_init(aptos_transaction_t *tx) {
+void transaction_init(supra_transaction_t *tx) {
     memset(tx->sender, 0, ADDRESS_LEN);
     tx->tx_variant = TX_UNDEFINED;
     tx->sequence = 0;
