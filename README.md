@@ -89,7 +89,7 @@ For Nano S Plus:
 
 ```shell
 # Run in your shell.
-docker run --rm -ti -v "$(realpath .):/app" ledger-app-builder:latest
+docker run --rm -ti -v "$(realpath .):/app" ghcr.io/ledgerhq/ledger-app-builder/ledger-app-builder:latest
 
 # Run in docker container interactive shell.
 make clean; BOLOS_SDK=$NANOSP_SDK make
@@ -98,7 +98,7 @@ make clean; BOLOS_SDK=$NANOSP_SDK make
 For Nano X:
 
 ```shell
-docker run --rm -ti -v "$(realpath .):/app" ledger-app-builder:latest
+docker run --rm -ti -v "$(realpath .):/app" ghcr.io/ledgerhq/ledger-app-builder/ledger-app-builder:latest
 
 # Run in docker container interactive shell.
 make clean; BOLOS_SDK=$NANOX_SDK make
