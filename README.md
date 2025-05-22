@@ -148,7 +148,7 @@ speculos "$(realpath .)"/bin/app.elf --model nanos --display headless --seed "sh
 # Open http://127.0.0.1:5000 in your browser to view speculos ledger wallet emulator interface. 
 ```
 
-_**NOTE: For more information see the Speculos GitHub repositor:**_
+_**NOTE: For more information see the Speculos GitHub repository:**_
 <https://github.com/LedgerHQ/speculos/blob/master/docs/index.md>
 
 ## Documentation
