@@ -10,7 +10,7 @@
 // Address size
 #define ADDRESS_LEN 32
 // default coin module
-#define APTOS_COIN "0x1::supra_coin::SupraCoin"
+#define SUPRA_COIN "0x1::supra_coin::SupraCoin"
 // prefix for RawTransaction
 #define RAW_TRANSACTION_SALT "SUPRA::RawTransaction"
 // prefix for MultiAgentRawTransaction
@@ -77,7 +77,7 @@ typedef struct {
 
 typedef enum {
     FUNC_UNKNOWN = 0,
-    FUNC_APTOS_ACCOUNT_TRANSFER = 1,
+    FUNC_SUPRA_ACCOUNT_TRANSFER = 1,
     FUNC_COIN_TRANSFER = 2
 } entry_function_known_type_t;
 
@@ -89,7 +89,7 @@ typedef struct {
 typedef struct {
     uint8_t receiver[ADDRESS_LEN];
     uint64_t amount;
-} agrs_aptos_account_trasfer_t;
+} agrs_supra_account_trasfer_t;
 
 typedef struct {
     uint8_t receiver[ADDRESS_LEN];
@@ -106,7 +106,7 @@ typedef struct {
         size_t args_size;
         union {
             agrs_raw_t raw;
-            agrs_aptos_account_trasfer_t transfer;
+            agrs_supra_account_trasfer_t transfer;
             agrs_coin_trasfer_t coin_transfer;
         };
     } args;
@@ -141,4 +141,4 @@ typedef struct {
     uint64_t gas_unit_price;
     uint64_t expiration_timestamp_secs;
     uint8_t chain_id;
-} aptos_transaction_t;
+} supra_transaction_t;

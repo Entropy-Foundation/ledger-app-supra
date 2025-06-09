@@ -1,15 +1,15 @@
 import struct
 from typing import Tuple
 from ledgercomm import Transport
-from aptos_client.aptos_cmd_builder import AptosCommandBuilder, InsType
-from aptos_client.button import Button
-from aptos_client.exception import DeviceException
+from supra_client.supra_cmd_builder import SupraCommandBuilder, InsType
+from supra_client.button import Button
+from supra_client.exception import DeviceException
 
 
-class AptosCommand:
+class SupraCommand:
     def __init__(self, transport: Transport, debug: bool = False) -> None:
         self.transport = transport
-        self.builder = AptosCommandBuilder(debug=debug)
+        self.builder = SupraCommandBuilder(debug=debug)
         self.debug = debug
 
     def get_app_and_version(self) -> Tuple[str, str]:

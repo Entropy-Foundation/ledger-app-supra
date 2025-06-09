@@ -24,8 +24,7 @@ Binary Canonical Serialization (BCS) is a serialization format applied to the ra
 
 ### Signing message
 
-The bytes of a BCS-serialized raw transaction are referred as a **signing message**.
-In addition, in Supra, any content that is signed or hashed is salted with a unique prefix to distinguish it from other types of messages. This is done to ensure that the content can only be used in the intended scenarios. The signing message of a `RawTransaction` is prefixed with `prefix_bytes`, which is `sha3_256("SUPRA::RawTransaction")`. Therefore: `signing_message = prefix_bytes | bcs_bytes_of_raw_transaction`.
+In Supra, any content that is signed or hashed is salted with a unique prefix to distinguish it from other types of messages. This is done to ensure that the content can only be used in the intended scenarios. The signing message of a `RawTransaction` is prefixed with `prefix_bytes`, which is `sha3_256("SUPRA::RawTransaction")`. Therefore: `signing_message = prefix_bytes | bcs_bytes_of_raw_transaction`.
 
 Supra also supports signing with the MultiEd25519 signature scheme, which corresponds to the salt `sha3_256("SUPRA::RawTransactionWithData")`, but Ledger, at this stage, does not support deserialization of such a transaction.
 

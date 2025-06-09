@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * Instruction class of the Aptos application.
+ * Instruction class of the Supra application.
  */
 #define CLA 0x5B
 

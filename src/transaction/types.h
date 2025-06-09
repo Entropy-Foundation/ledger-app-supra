@@ -47,4 +47,4 @@ typedef enum {
     WRONG_LENGTH_ERROR = -2000
 } parser_status_e;
 
-typedef aptos_transaction_t transaction_t;
+typedef supra_transaction_t transaction_t;

@@ -22,7 +22,7 @@ parser_status_e tx_variant_deserialize(buffer_t *buf, transaction_t *tx);
 
 parser_status_e entry_function_payload_deserialize(buffer_t *buf, transaction_t *tx);
 
-parser_status_e aptos_account_transfer_function_deserialize(buffer_t *buf, transaction_t *tx);
+parser_status_e supra_account_transfer_function_deserialize(buffer_t *buf, transaction_t *tx);
 
 parser_status_e coin_transfer_function_deserialize(buffer_t *buf, transaction_t *tx);
 

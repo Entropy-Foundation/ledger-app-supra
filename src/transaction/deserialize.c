@@ -79,7 +79,7 @@ parser_status_e tx_raw_deserialize(buffer_t *buf, transaction_t *tx) {
             if (payload_parsing_status != PARSING_OK) {
                 return payload_parsing_status;
             }
-            if (tx->payload.entry_function.known_type == FUNC_APTOS_ACCOUNT_TRANSFER) {
+            if (tx->payload.entry_function.known_type == FUNC_SUPRA_ACCOUNT_TRANSFER) {
                 return (buf->offset == buf_footer_begin) ? PARSING_OK : WRONG_LENGTH_ERROR;
             }
             return PARSING_OK;
@@ -159,8 +159,8 @@ parser_status_e entry_function_payload_deserialize(buffer_t *buf, transaction_t 
 
     payload->known_type = determine_function_type(tx);
     switch (payload->known_type) {
-        case FUNC_APTOS_ACCOUNT_TRANSFER:
-            return aptos_account_transfer_function_deserialize(buf, tx);
+        case FUNC_SUPRA_ACCOUNT_TRANSFER:
+            return supra_account_transfer_function_deserialize(buf, tx);
         case FUNC_COIN_TRANSFER:
             return coin_transfer_function_deserialize(buf, tx);
         default:
@@ -170,12 +170,12 @@ parser_status_e entry_function_payload_deserialize(buffer_t *buf, transaction_t 
     return PARSING_OK;
 }
 
-parser_status_e aptos_account_transfer_function_deserialize(buffer_t *buf, transaction_t *tx) {
+parser_status_e supra_account_transfer_function_deserialize(buffer_t *buf, transaction_t *tx) {
     if (tx->payload_variant != PAYLOAD_ENTRY_FUNCTION) {
         return PAYLOAD_UNDEFINED_ERROR;
     }
     entry_function_payload_t *payload = &tx->payload.entry_function;
-    if (payload->known_type != FUNC_APTOS_ACCOUNT_TRANSFER) {
+    if (payload->known_type != FUNC_SUPRA_ACCOUNT_TRANSFER) {
         return PAYLOAD_UNDEFINED_ERROR;
     }
 
@@ -323,7 +323,7 @@ entry_function_known_type_t determine_function_type(transaction_t *tx) {
     if (tx->payload.entry_function.module_id.address[ADDRESS_LEN - 1] == 0x01 &&
         memcmp(tx->payload.entry_function.module_id.name.bytes, "supra_account", 13) == 0 &&
         memcmp(tx->payload.entry_function.function_name.bytes, "transfer", 8) == 0) {
-        return FUNC_APTOS_ACCOUNT_TRANSFER;
+        return FUNC_SUPRA_ACCOUNT_TRANSFER;
     }
 
     if (tx->payload.entry_function.module_id.address[ADDRESS_LEN - 1] == 0x01 &&

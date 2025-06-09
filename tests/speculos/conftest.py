@@ -2,7 +2,7 @@ from collections import namedtuple
 from pathlib import Path
 import pytest
 from speculos.client import SpeculosClient
-from aptos_client.aptos_speculos_cmd import AptosSpeculosCommand
+from supra_client.supra_speculos_cmd import SupraSpeculosCommand
 
 
 SCRIPT_DIR = Path(__file__).absolute().parent
@@ -47,4 +47,4 @@ def client(model, sdk):
 
 @pytest.fixture
 def cmd(client):
-    yield AptosSpeculosCommand(client=client, debug=True)
+    yield SupraSpeculosCommand(client=client, debug=True)
